@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+destination=org.freedesktop.Notifications
+interface=org.freedesktop.Notifications
+member=Notify
+
+dbus-monitor "destination='$destination', interface='$interface', member='$member'" |
+while read -r line; do
+  [ ! "${line:0:12}" = "method call " ] && continue
+  read -r type app_name
+  read -r type replaces_id
+  read -r type app_icon
+  read -r type summary
+  read -r type body
+
+  echo "[$app_app_name] $summary"
+  echo "$body"
+done
